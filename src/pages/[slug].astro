@@ -1,0 +1,43 @@
+---
+import { Section } from 'astro-boilerplate-components';
+
+import { CTA } from '@/partials/CTA';
+import { getAllJobs } from '@/partials/Graphql';
+import type { JobDetails } from '@/partials/JobList';
+import { JobSection } from '@/partials/JobSection';
+import Base from '@/templates/Base.astro';
+import { AppConfig } from '@/utils/AppConfig';
+import { Search } from '@/partials/Search';
+
+export async function getStaticPaths() {
+  const jobs = (await getAllJobs()) as [];
+
+  // Return a paginated collection of paths for all posts
+  return jobs.map((job: JobDetails) => {
+    return {
+      params: { slug: job.slug },
+      props: {
+        job,
+      },
+    };
+  });
+}
+
+const { job }: JobDetails = Astro.props as JobDetails;
+console.log('[slug]:',job);
+const titleSuffix = ` - ${AppConfig.site_name}`;
+const titleBase = `Blog page ${job.slug}`;
+const title = titleBase + titleSuffix;
+const description =
+  'Pagination example built with Astro styled with Tailwind CSS.';
+---
+
+<Base head={{ title, description }}>
+  <Section>
+    <div>{job.slug}</div>
+    <Search />
+    <JobSection job={job} />
+  </Section>
+
+  <CTA />
+</Base>

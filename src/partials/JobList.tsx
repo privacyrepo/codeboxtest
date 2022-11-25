@@ -6,7 +6,28 @@ import {
   Tags,
 } from 'astro-boilerplate-components';
 
-const ProjectList = () => (
+import { Card } from './Card';
+
+export type JobDetails = {
+  id: string;
+  entryId: string;
+  title: string;
+  slug: string;
+  type: string;
+  skills: string[];
+  keywords: string[];
+  compensation: string[];
+  location: string;
+  applyLink: string;
+  featured: boolean;
+  remote: boolean;
+  [key: string]: any;
+};
+export type JobListProps = {
+  jobs: JobDetails[];
+};
+
+const JobList = ({ jobs }: JobListProps) => (
   <Section
     title={
       <>
@@ -15,6 +36,23 @@ const ProjectList = () => (
     }
   >
     <div className="flex flex-col gap-6">
+      {jobs.map((job: JobDetails) => (
+        <Card
+          job={job}
+          id={''}
+          entryId={''}
+          title={''}
+          slug={''}
+          type={''}
+          skills={[]}
+          keywords={[]}
+          compensation={[]}
+          location={''}
+          applyLink={''}
+          featured={false}
+          remote={false}
+        />
+      ))}
       <Project
         name="Project 1"
         description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
@@ -27,10 +65,9 @@ const ProjectList = () => (
         }}
         category={
           <>
-            <Tags color={ColorTags.FUCHSIA}>Astro.js</Tags>
-            <Tags color={ColorTags.LIME}>Web design</Tags>
-            <Tags color={ColorTags.SKY}>Tailwind.css</Tags>
-            <Tags color={ColorTags.ROSE}>TypeScript</Tags>
+            <Tags color={ColorTags.VIOLET}>{jobs[0]?.slug}</Tags>
+            <Tags color={ColorTags.EMERALD}>Blog</Tags>
+            <Tags color={ColorTags.YELLOW}>JavaScript</Tags>
           </>
         }
       />
@@ -68,4 +105,4 @@ const ProjectList = () => (
   </Section>
 );
 
-export { ProjectList };
+export { JobList };

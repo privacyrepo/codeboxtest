@@ -3,11 +3,14 @@ import type { IFrontmatter } from 'astro-boilerplate-components';
 
 import { CTA } from '@/partials/CTA';
 import { Hero } from '@/partials/Hero';
-import { ProjectList } from '@/partials/ProjectList';
+import { JobList } from '@/partials/JobList';
+import { PostJob } from '@/partials/PostJob';
 import { RecentPosts } from '@/partials/RecentPosts';
 import Base from '@/templates/Base.astro';
 import { AppConfig } from '@/utils/AppConfig';
 import { sortByDate } from '@/utils/Posts';
+import { JOB_LIST_QUERY } from '@/partials/Graphql';
+import { Search } from '@/partials/Search';
 
 const allPosts = await Astro.glob<IFrontmatter>('./posts/*.md');
 const sortedPosts = sortByDate(allPosts);
@@ -15,11 +18,86 @@ const lastThreePosts = sortedPosts.slice(0, 3);
 
 const { title } = AppConfig;
 const { description } = AppConfig;
+
+// const response = await fetch(import.meta.env.GRAPHQL_READ_URL, {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json',
+//     authorization: `Bearer ${import.meta.env.WEBINY_API_KEY}`,
+//   },
+//   body: JSON.stringify({
+//     query:JOB_LIST_QUERY,
+//     variables: {},
+//   }),
+// });
+
+// const json = await response.json();
+// const job = json.data.listJobs.data;
+// console.log(job);
+
+const job = [
+  {
+    id: '633849ae93663e0009ee8a15#0003',
+    entryId: '633849ae93663e0009ee8a15',
+    title: 'Full-stack Javascript developer',
+    slug: 'full-stack-javascript-developer-nft',
+    type: 'Full-time',
+    skills: [ 'javascript', 'web3', 'blockchain' ],
+    keywords: [ 'web3', 'solidity', 'etherum' ],
+    compensation: [ '100K USD', '120K USD' ],
+    location: 'NYC/NY',
+    applyLink: 'http://www.nft.com',
+    featured: null,
+    remote: null,
+    description: [ [Object], [Object], [Object], [Object], [Object] ],
+    createdOn: '2022-10-04T15:56:11.033Z',
+    company: { name: 'NFT port', logo: null }
+  },
+  {
+    id: '633bacfd55878200097f1d06#0003',
+    entryId: '633bacfd55878200097f1d06',
+    title: 'Full-stack Javascript developer',
+    slug: 'full-stack-javascript-developer',
+    type: 'Full-time',
+    skills: [ 'javascript', 'web3', 'blockchain' ],
+    keywords: [ 'web3', 'solidity', 'etherum' ],
+    compensation: [ '100K USD', '120K USD' ],
+    location: 'NYC/NY',
+    applyLink: 'http://www.nft.com',
+    featured: null,
+    remote: null,
+    description: [ [Object], [Object], [Object], [Object], [Object] ],
+    createdOn: '2022-10-04T03:56:07.976Z',
+    company: { name: 'NFT', logo: null }
+  },
+  {
+    id: '6338f3d9aaa0cd0009a8e979#0003',
+    entryId: '6338f3d9aaa0cd0009a8e979',
+    title: 'Engineering Lead (Protocol)',
+    slug: 'engineering-llead-protocol',
+    type: 'Full-time',
+    skills: [ 'NFT', 'WEB3', 'Protocol' ],
+    keywords: [ 'NFT', 'BLOCKCHAIN' ],
+    compensation: [ '120k USD', '150K USD' ],
+    location: 'Worldwide',
+    applyLink: null,
+    featured: null,
+    remote: null,
+    description: [ [Object], [Object], [Object], [Object], [Object], [Object] ],
+    createdOn: '2022-10-04T03:41:48.273Z',
+    company: { name: 'NFT', logo: null }
+  }
+]
+
 ---
 
 <Base head={{ title, description }}>
-  <Hero />
-  <ProjectList />
+  <h2 class='text-xl'></h2>
+  <!-- <Hero /> -->
+
+  <JobList jobs={job} />
   <RecentPosts postList={lastThreePosts} />
+  <Search />
   <CTA />
+  <PostJob />
 </Base>
